@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { SiteSettings } from "@/lib/models";
 
+export const dynamic = 'force-dynamic';
+
 const PUBLIC_KEYS = [
   "marquee_text",
   "stats",
@@ -12,7 +14,9 @@ const PUBLIC_KEYS = [
 
 export async function GET() {
   try {
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
+
     const settings = await SiteSettings.find({
       key: { $in: PUBLIC_KEYS },
     }).lean();

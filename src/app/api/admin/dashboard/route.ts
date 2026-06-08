@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Inquiry, Project, Client } from "@/lib/models";
@@ -8,7 +10,8 @@ export async function GET() {
   if (error) return error;
 
   try {
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
 
     const [totalInquiries, activeProjects, totalClients, newThisMonth] = await Promise.all([
       Inquiry.countDocuments(),

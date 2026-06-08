@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { User } from "@/lib/models";
@@ -14,7 +16,8 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
 
     if (body.password) {
       body.passwordHash = await bcrypt.hash(body.password, 12);
@@ -40,7 +43,8 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const user = await User.findById(id);
     if (!user) return NextResponse.json({ error: "Not found" }, { status: 404 });
     if (user.role === "super_admin") {

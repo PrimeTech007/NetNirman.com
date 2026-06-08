@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Project } from "@/lib/models";
@@ -9,7 +11,8 @@ export async function GET(request: NextRequest) {
   if (error) return error;
 
   try {
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "20");
@@ -49,7 +52,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Validation failed", details: parsed.error.flatten().fieldErrors }, { status: 400 });
     }
 
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const data = parsed.data;
     // Generate slug if not provided
     if (!data.slug) {

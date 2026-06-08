@@ -2,9 +2,13 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Project } from "@/lib/models";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
+
     const projects = await Project.find({ isPublic: true })
       .select("name slug type thumbnailUrl isFeatured createdAt description techStack")
       .populate("clientId", "name company")

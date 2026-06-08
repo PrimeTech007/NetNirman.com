@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { SiteSettings } from "@/lib/models";
@@ -8,7 +10,8 @@ export async function GET() {
   if (error) return error;
 
   try {
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const settings = await SiteSettings.find().lean();
     const result: Record<string, unknown> = {};
     settings.forEach((s) => { result[s.key] = { value: s.value, description: s.description }; });
@@ -24,7 +27,8 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
 
     // body should be { key, value, description? }
     const { key, value, description } = body;

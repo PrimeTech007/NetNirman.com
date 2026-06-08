@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { User } from "@/lib/models";
@@ -9,7 +11,8 @@ export async function GET() {
   if (error) return error;
 
   try {
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const users = await User.find().select("-passwordHash").sort({ createdAt: -1 }).lean();
     return NextResponse.json(users);
   } catch (err) {
@@ -26,7 +29,8 @@ export async function POST(request: NextRequest) {
     const parsed = userSchema.safeParse(body);
     if (!parsed.success) return NextResponse.json({ error: "Validation failed" }, { status: 400 });
 
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const exists = await User.findOne({ email: parsed.data.email });
     if (exists) return NextResponse.json({ error: "Email already exists" }, { status: 409 });
 

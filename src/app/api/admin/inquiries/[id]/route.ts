@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Inquiry, Client, Project } from "@/lib/models";
@@ -13,7 +15,8 @@ export async function GET(
 
   try {
     const { id } = await params;
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
 
     const inquiry = await Inquiry.findById(id).lean();
     if (!inquiry) {
@@ -54,7 +57,8 @@ export async function PATCH(
       return NextResponse.json({ error: "Validation failed" }, { status: 400 });
     }
 
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
 
     const update: Record<string, unknown> = {};
     if (parsed.data.status) update.status = parsed.data.status;
@@ -89,7 +93,8 @@ export async function POST(
 
   try {
     const { id } = await params;
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
 
     const inquiry = await Inquiry.findById(id);
     if (!inquiry) {

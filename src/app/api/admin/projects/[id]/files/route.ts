@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Project } from "@/lib/models";
@@ -18,7 +20,8 @@ export async function POST(
     const parsed = schema.safeParse(body);
     if (!parsed.success) return NextResponse.json({ error: "Validation failed" }, { status: 400 });
 
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const project = await Project.findById(id);
     if (!project) return NextResponse.json({ error: "Not found" }, { status: 404 });
 

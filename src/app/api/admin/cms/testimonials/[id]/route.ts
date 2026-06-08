@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Testimonial } from "@/lib/models";
@@ -13,7 +15,8 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const t = await Testimonial.findByIdAndUpdate(id, body, { new: true }).lean();
     if (!t) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(t);
@@ -31,7 +34,8 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     await Testimonial.findByIdAndDelete(id);
     return NextResponse.json({ message: "Deleted" });
   } catch (err) {

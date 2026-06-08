@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Testimonial } from "@/lib/models";
@@ -9,7 +11,8 @@ export async function GET() {
   if (error) return error;
 
   try {
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const testimonials = await Testimonial.find().sort({ order: 1 }).lean();
     return NextResponse.json(testimonials);
   } catch (err) {
@@ -26,7 +29,8 @@ export async function POST(request: NextRequest) {
     const parsed = testimonialSchema.safeParse(body);
     if (!parsed.success) return NextResponse.json({ error: "Validation failed" }, { status: 400 });
 
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const t = await Testimonial.create(parsed.data);
     return NextResponse.json(t, { status: 201 });
   } catch (err) {

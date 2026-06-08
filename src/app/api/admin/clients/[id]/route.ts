@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Client, Project } from "@/lib/models";
@@ -13,7 +15,8 @@ export async function GET(
 
   try {
     const { id } = await params;
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const client = await Client.findById(id).lean();
     if (!client) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
@@ -38,7 +41,8 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const client = await Client.findByIdAndUpdate(id, body, { new: true }).lean();
     if (!client) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(client);
@@ -62,7 +66,8 @@ export async function PATCH(
     const parsed = schema.safeParse(body);
     if (!parsed.success) return NextResponse.json({ error: "Invalid status" }, { status: 400 });
 
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
     const client = await Client.findByIdAndUpdate(id, { status: parsed.data.status }, { new: true }).lean();
     if (!client) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(client);

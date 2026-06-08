@@ -4,6 +4,8 @@ import { Inquiry } from "@/lib/models";
 import { inquirySchema } from "@/lib/validations";
 import { rateLimit, getClientIP } from "@/lib/rate-limit";
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     // Rate limit: 5 per hour per IP
@@ -27,7 +29,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await connectDB();
+    const db = await connectDB();
+    if (!db) return NextResponse.json({ error: 'DB not configured' }, { status: 503 });
 
     const inquiry = await Inquiry.create(parsed.data);
 
