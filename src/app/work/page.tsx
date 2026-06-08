@@ -1,49 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import * as Icons from "@phosphor-icons/react";
 
-const categories = ["ALL", "WEB DESIGN", "WEB DEVELOPMENT", "MOBILE APP", "AI INTEGRATION", "BRANDING", "SEO"];
+const categories = ["ALL", "WEB", "MOBILE", "AI", "BRANDING"];
 
-interface Project {
-  _id: string;
-  name: string;
-  slug: string;
-  type: string[];
-  thumbnailUrl: string;
-  description: string;
-}
+const projects = [
+  { name: "E-Commerce Platform", type: "WEB", color: "#FFE600", description: "Full-stack marketplace with 10k+ products" },
+  { name: "FinTech Dashboard", type: "WEB", color: "#00FF88", description: "Real-time analytics for financial data" },
+  { name: "Health & Fitness App", type: "MOBILE", color: "#7B2FBE", description: "Cross-platform iOS & Android app" },
+  { name: "AI Chatbot Suite", type: "AI", color: "#FF3B3B", description: "GPT-powered customer service bot" },
+  { name: "Restaurant Brand", type: "BRANDING", color: "#0066FF", description: "Complete identity for chain of 12 outlets" },
+  { name: "SaaS CRM Tool", type: "WEB", color: "#00FF88", description: "Customer relationship management platform" },
+  { name: "Delivery App", type: "MOBILE", color: "#FFE600", description: "Last-mile logistics with real-time tracking" },
+  { name: "ML Prediction Engine", type: "AI", color: "#7B2FBE", description: "Demand forecasting for retail" },
+  { name: "Startup Brand Kit", type: "BRANDING", color: "#FF3B3B", description: "Full brand identity for tech startup" },
+];
 
 export default function WorkPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
   const [filter, setFilter] = useState("ALL");
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch("/api/portfolio")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setProjects(data);
-        }
-      })
-      .catch((err) => console.error("Failed to fetch portfolio:", err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const filtered = filter === "ALL" 
-    ? projects 
-    : projects.filter((p) => p.type.some(t => t.toUpperCase() === filter));
-
-  const colors = ["#FFE600", "#00FF88", "#7B2FBE", "#FF3B3B", "#0066FF"];
+  const filtered = filter === "ALL" ? projects : projects.filter((p) => p.type === filter);
 
   return (
     <>
       <Navbar />
-      <section className="bg-cream section-padding min-h-screen">
+      <section className="bg-cream section-padding">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-black font-space mb-4">Our Work</h1>
@@ -66,56 +50,32 @@ export default function WorkPage() {
             ))}
           </div>
 
-          {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <div className="w-12 h-12 border-4 border-black border-t-yellow animate-spin" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.length > 0 ? (
-                filtered.map((p, i) => (
-                  <Link
-                    key={p._id}
-                    href={`/work/${p.slug}`}
-                    className="border-2 border-black shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all group overflow-hidden"
-                    style={{ borderRadius: "2px" }}
-                  >
-                    <div
-                      className="h-48 flex items-center justify-center overflow-hidden"
-                      style={{ backgroundColor: colors[i % colors.length] }}
-                    >
-                      {p.thumbnailUrl ? (
-                        <img 
-                          src={p.thumbnailUrl} 
-                          alt={p.name} 
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                      ) : (
-                        <Icons.Briefcase size={64} weight="duotone" className="group-hover:scale-110 transition-transform duration-500" />
-                      )}
-                    </div>
-                    <div className="p-4 bg-white border-t-2 border-black">
-                      <div className="flex flex-wrap gap-1 mb-2">
-                        {p.type.map(t => (
-                          <span key={t} className="badge-brutal bg-cream text-[10px]">{t}</span>
-                        ))}
-                      </div>
-                      <h3 className="font-bold font-space text-lg">{p.name}</h3>
-                      <p className="text-sm text-black/60 mt-1 line-clamp-2">{p.description}</p>
-                    </div>
-                  </Link>
-                ))
-              ) : (
-                <div className="col-span-full text-center py-20 bg-white border-2 border-black shadow-brutal">
-                  <p className="font-bold">No projects found for this category.</p>
+          {/* Project Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((p) => (
+              <Link
+                key={p.name}
+                href="#"
+                className="border-2 border-black shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all group"
+                style={{ borderRadius: "2px" }}
+              >
+                <div
+                  className="h-48 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform"
+                  style={{ backgroundColor: p.color }}
+                >
+                  🖥️
                 </div>
-              )}
-            </div>
-          )}
+                <div className="p-4 bg-white border-t-2 border-black">
+                  <span className="badge-brutal bg-cream text-xs mb-2">{p.type}</span>
+                  <h3 className="font-bold font-space text-lg">{p.name}</h3>
+                  <p className="text-sm text-black/60 mt-1">{p.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
       <Footer />
     </>
   );
 }
-

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,7 +8,6 @@ import AnimatedCounter from "@/components/AnimatedCounter";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import { motion } from "framer-motion";
-import * as Icons from "@phosphor-icons/react";
 import {
   PaintBrush,
   Code,
@@ -31,27 +29,24 @@ import {
   ArrowsOut,
 } from "@phosphor-icons/react";
 
-interface Service {
-  _id: string;
-  name: string;
-  icon: string;
-  description: string;
-}
+const services = [
+  { icon: PaintBrush, name: "Web Design", color: "#00FF88", tilt: "left" as const },
+  { icon: Code, name: "Development", color: "#7B2FBE", tilt: "right" as const },
+  { icon: Brain, name: "AI Integration", color: "#FFE600", tilt: "left" as const },
+  { icon: Palette, name: "Branding & SEO", color: "#0066FF", tilt: "right" as const },
+];
 
-interface Testimonial {
-  _id: string;
-  clientName: string;
-  company: string;
-  quote: string;
-  rating: number;
-}
+const portfolioPreview = [
+  { name: "E-Commerce Platform", type: "Web App", color: "#FFE600", icon: Globe },
+  { name: "FinTech Dashboard", type: "SaaS", color: "#00FF88", icon: Database },
+  { name: "Health App", type: "Mobile", color: "#7B2FBE", icon: Laptop },
+];
 
-interface SiteStats {
-  projects: number;
-  clients: number;
-  years: number;
-  onTime: number;
-}
+const testimonials = [
+  { name: "Rahul Sharma", company: "TechVista Solutions", quote: "Net Nirman transformed our online presence completely. Our leads increased by 200%." },
+  { name: "Priya Patel", company: "GreenLeaf Organics", quote: "They understood our vision perfectly and built an e-commerce platform that exceeded expectations." },
+  { name: "Amit Kumar", company: "FinEdge Capital", quote: "The AI-powered dashboard revolutionized how we analyze financial data. Unmatched expertise." },
+];
 
 const techStacks = [
   { label: "Next.js", position: "top-3 left-5" },
@@ -196,44 +191,6 @@ function TechLaptopIllustration() {
 }
 
 export default function HomePage() {
-  const [services, setServices] = useState<Service[]>([]);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [stats, setStats] = useState<SiteStats>({ projects: 50, clients: 30, years: 3, onTime: 100 });
-  const [portfolio, setPortfolio] = useState<any[]>([]);
-
-  useEffect(() => {
-    // Fetch stats
-    fetch("/api/site-settings/public")
-      .then(r => r.json())
-      .then(data => {
-        const statData = data.find((s: any) => s.key === "stats");
-        if (statData) setStats(statData.value);
-      });
-
-    // Fetch services
-    fetch("/api/services").then(r => r.json()).then(data => {
-      if (Array.isArray(data)) setServices(data.slice(0, 4));
-    });
-
-    // Fetch testimonials
-    fetch("/api/testimonials").then(r => r.json()).then(data => {
-      if (Array.isArray(data)) setTestimonials(data.slice(0, 3));
-    });
-
-    // Fetch portfolio preview
-    fetch("/api/portfolio").then(r => r.json()).then(data => {
-      if (Array.isArray(data)) setPortfolio(data.slice(0, 3));
-    });
-  }, []);
-
-  const getIcon = (name: string, size = 36) => {
-    const Icon = (Icons as any)[name] || Code;
-    return <Icon size={size} weight="duotone" />;
-  };
-
-  const serviceColors = ["#00FF88", "#7B2FBE", "#FFE600", "#0066FF"];
-  const portfolioColors = ["#FFE600", "#00FF88", "#7B2FBE"];
-
   return (
     <>
       <Navbar />
@@ -394,10 +351,10 @@ export default function HomePage() {
       {/* Stats */}
       <section className="bg-cream py-16 px-4">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-          <AnimatedCounter end={stats.projects} label="Projects Delivered" />
-          <AnimatedCounter end={stats.clients} label="Happy Clients" />
-          <AnimatedCounter end={stats.years} label="Years Experience" />
-          <AnimatedCounter end={stats.onTime} suffix="%" label="On-Time Delivery" />
+          <AnimatedCounter end={50} label="Projects Delivered" />
+          <AnimatedCounter end={30} label="Happy Clients" />
+          <AnimatedCounter end={3} label="Years Experience" />
+          <AnimatedCounter end={100} suffix="%" label="On-Time Delivery" />
         </div>
       </section>
 
@@ -411,17 +368,17 @@ export default function HomePage() {
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(services.length > 0 ? services : Array.from({ length: 4 })).map((s: any, i) => (
+            {services.map((s) => (
               <Card
-                key={s?._id || i}
-                tilt={i % 2 === 0 ? "left" : "right"}
-                color={serviceColors[i % serviceColors.length]}
+                key={s.name}
+                tilt={s.tilt}
+                color={s.color}
                 className="flex flex-col items-center text-center gap-4 cursor-pointer group"
               >
                 <div className="w-16 h-16 bg-white border-2 border-black flex items-center justify-center group-hover:bg-black group-hover:text-white transition-colors" style={{ borderRadius: "2px" }}>
-                  {s ? getIcon(s.icon) : <Code size={36} />}
+                  <s.icon size={36} weight="duotone" />
                 </div>
-                <h3 className="text-xl font-bold font-space">{s?.name || "Service Name"}</h3>
+                <h3 className="text-xl font-bold font-space">{s.name}</h3>
                 <ArrowRight size={20} weight="bold" className="mt-auto opacity-0 group-hover:opacity-100 transition-opacity" />
               </Card>
             ))}
@@ -444,22 +401,18 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(portfolio.length > 0 ? portfolio : Array.from({ length: 3 })).map((p: any, i) => (
+            {portfolioPreview.map((p) => (
               <div
-                key={p?._id || i}
-                className="border-2 border-black shadow-brutal hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all cursor-pointer group overflow-hidden"
+                key={p.name}
+                className="border-2 border-black shadow-brutal hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all cursor-pointer group"
                 style={{ borderRadius: "2px" }}
               >
-                <div className="h-48 flex items-center justify-center transition-transform group-hover:scale-105" style={{ backgroundColor: portfolioColors[i % portfolioColors.length] }}>
-                  {p?.thumbnailUrl ? (
-                    <img src={p.thumbnailUrl} alt={p.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <Globe size={72} weight="duotone" className="text-black" />
-                  )}
+                <div className="h-48 flex items-center justify-center transition-transform group-hover:scale-105" style={{ backgroundColor: p.color }}>
+                  <p.icon size={72} weight="duotone" className="text-black" />
                 </div>
                 <div className="p-4 bg-white border-t-2 border-black">
-                  <h3 className="font-bold font-space">{p?.name || "Project Name"}</h3>
-                  <p className="text-sm text-black/60">{p?.type?.join(", ") || "Project Type"}</p>
+                  <h3 className="font-bold font-space">{p.name}</h3>
+                  <p className="text-sm text-black/60">{p.type}</p>
                 </div>
               </div>
             ))}
@@ -477,17 +430,17 @@ export default function HomePage() {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(testimonials.length > 0 ? testimonials : Array.from({ length: 3 })).map((t: any, i) => (
-              <Card key={t?._id || i} className="flex flex-col group hover:border-blue transition-colors">
+            {testimonials.map((t) => (
+              <Card key={t.name} className="flex flex-col group hover:border-blue transition-colors">
                 <div className="flex gap-1 mb-3">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={16} weight="fill" className={i < (t?.rating || 5) ? "text-yellow" : "text-black/10"} />
+                    <Star key={i} size={16} weight="fill" className="text-yellow" />
                   ))}
                 </div>
-                <p className="text-sm italic mb-4 flex-1">&ldquo;{t?.quote || "Client quote goes here."}&rdquo;</p>
+                <p className="text-sm italic mb-4 flex-1">&ldquo;{t.quote}&rdquo;</p>
                 <div className="border-t border-black/10 pt-3">
-                  <p className="font-bold text-sm">{t?.clientName || "Client Name"}</p>
-                  <p className="text-xs text-black/60">{t?.company || "Company Name"}</p>
+                  <p className="font-bold text-sm">{t.name}</p>
+                  <p className="text-xs text-black/60">{t.company}</p>
                 </div>
               </Card>
             ))}
