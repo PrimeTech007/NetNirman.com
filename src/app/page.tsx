@@ -38,14 +38,14 @@ const services = [
 
 const portfolioPreview = [
   { name: "E-Commerce Platform", type: "Web App", color: "#FFE600", icon: Globe },
-  { name: "FinTech Dashboard", type: "SaaS", color: "#00FF88", icon: Database },
+  { name: "Vellbite", type: "SaaS : coming Soon", color: "#00FF88", icon: Database },
   { name: "Health App", type: "Mobile", color: "#7B2FBE", icon: Laptop },
 ];
 
 const testimonials = [
-  { name: "Rahul Sharma", company: "TechVista Solutions", quote: "Net Nirman transformed our online presence completely. Our leads increased by 200%." },
-  { name: "Priya Patel", company: "GreenLeaf Organics", quote: "They understood our vision perfectly and built an e-commerce platform that exceeded expectations." },
-  { name: "Amit Kumar", company: "FinEdge Capital", quote: "The AI-powered dashboard revolutionized how we analyze financial data. Unmatched expertise." },
+  { name: "Dharmendra Kashyap", company: "Delhi Automation Systems", quote: "Net Nirman transformed our online presence completely. Our leads increased by 200%." },
+  { name: "Priya Patel", company: "byshree.com", quote: "They understood our vision perfectly and built an e-commerce platform that exceeded expectations." },
+  { name: "Rem Baldonado", company: "Soidemer Catering & Events", quote: "Website drives profit by converting online inquiries into high-value bookings through showcases of our menu and event designs." },
 ];
 
 const techStacks = [

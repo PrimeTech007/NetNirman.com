@@ -16,17 +16,18 @@ const values = [
 
 const team = [
   { name: "Dheeraj Kumar", role: "Founder & Lead Developer", emoji: "👨‍💻" },
-  { name: "Ananya Singh", role: "UI/UX Designer", emoji: "🎨" },
-  { name: "Rahul Verma", role: "Backend Developer", emoji: "⚙️" },
-  { name: "Neha Gupta", role: "Project Manager", emoji: "📋" },
+  { name: "Jesse Manuel Pimentel", role: "UI/UX Designer", emoji: "🎨" },
+  { name: "Kent", role: "Backend Developer", emoji: "⚙️" },
+  { name: "Himesh Kashyap", role: "Managment & Marketing", emoji: "📋" },
 ];
 
 const comparisonData = [
+  { feature: "Cost Efficient", netNirman: true, others: false },
   { feature: "Dedicated Project Manager", netNirman: true, others: false },
   { feature: "100% On-Time Delivery", netNirman: true, others: false },
   { feature: "Post-Launch Support Included", netNirman: true, others: false },
   { feature: "Source Code Ownership", netNirman: true, others: false },
-  { feature: "Weekly Progress Reports", netNirman: true, others: false },
+  { feature: "Daily Progress Reports", netNirman: true, others: false },
   { feature: "No Hidden Charges", netNirman: true, others: false },
 ];
 
@@ -41,7 +42,7 @@ export default function AboutPage() {
           <h1 className="text-4xl md:text-6xl font-black font-space mb-6">About Net Nirman</h1>
           <p className="text-lg text-black/70 max-w-3xl mx-auto">
             We&apos;re a passionate team of digital craftsmen building powerful
-            digital products for startups and growing businesses worldwide.
+            digital products for every growing businesses to make them grow worldwide.
             Since 2023, we&apos;ve been helping ambitious teams drive real results.
           </p>
         </div>
@@ -53,14 +54,13 @@ export default function AboutPage() {
           <h2 className="text-3xl font-black font-space mb-6">Our Story</h2>
           <div className="space-y-4 text-black/80">
             <p>
-              Net Nirman was born from a simple idea: startups and growing businesses deserve world-class
-              digital products without the enterprise price tag. Our founder, frustrated by
+              Net Nirman was born from a simple idea: Every person, startups and growing businesses deserve world-class
+              digital products without the enterprise price tag. Our founder "Mr.Dheeraj" & his team, frustrated by
               the gap between expensive agencies and unreliable freelancers, set out to build
               a team that delivers both quality and value.
             </p>
             <p>
-              Today, we&apos;ve delivered 50+ projects for 30+ clients worldwide, from
-              early-stage startups to established enterprises. Our approach combines
+              Today, we&apos;ve delivered 50+ projects for 30+ clients worldwide. Our approach combines
               cutting-edge technology with a deep understanding of what growing businesses need.
             </p>
           </div>

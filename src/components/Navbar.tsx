@@ -6,7 +6,7 @@ import { List, X, House } from "@phosphor-icons/react";
 import Button from "@/components/ui/Button";
 
 const navLinks = [
-  { href: "/", label: "Home", icon: House },
+  { href: "/", label: "Home",  },
   { href: "/services", label: "Services" },
   { href: "/work", label: "Work" },
   { href: "/pricing", label: "Pricing" },
@@ -34,7 +34,7 @@ export default function Navbar() {
               href={link.href}
               className="text-sm font-bold hover:text-blue transition-colors flex items-center gap-1"
             >
-              {"icon" in link && link.icon && <link.icon size={16} weight="bold" />}
+             
               {link.label}
             </Link>
           ))}
@@ -68,7 +68,7 @@ export default function Navbar() {
                 style={{ borderRadius: "2px" }}
                 onClick={() => setMobileOpen(false)}
               >
-                {"icon" in link && link.icon && <link.icon size={16} weight="bold" />}
+                
                 {link.label}
               </Link>
             ))}

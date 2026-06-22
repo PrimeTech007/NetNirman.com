@@ -168,7 +168,7 @@ export default function ContactPage() {
             <div className="space-y-6">
               {/* WhatsApp */}
               <a
-                href="https://wa.me/919876543210"
+                href="https://wa.me/7818832387"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 border-2 border-black p-4 bg-green shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
@@ -189,7 +189,7 @@ export default function ContactPage() {
                   <MapPin size={20} weight="fill" className="mt-0.5 shrink-0" />
                   <div>
                     <p className="font-bold text-sm">Address</p>
-                    <p className="text-sm text-black/60">Greater Noida, Uttar Pradesh, India</p>
+                    <p className="text-sm text-black/60">Noida, Uttar Pradesh, India</p>
                   </div>
                 </div>
 
@@ -197,7 +197,7 @@ export default function ContactPage() {
                   <Phone size={20} weight="fill" className="mt-0.5 shrink-0" />
                   <div>
                     <p className="font-bold text-sm">Phone</p>
-                    <p className="text-sm text-black/60">+91 9876543210</p>
+                    <p className="text-sm text-black/60">+91 7818832387</p>
                   </div>
                 </div>
 
@@ -205,7 +205,7 @@ export default function ContactPage() {
                   <Envelope size={20} weight="fill" className="mt-0.5 shrink-0" />
                   <div>
                     <p className="font-bold text-sm">Email</p>
-                    <p className="text-sm text-black/60">hello@netnirman.com</p>
+                    <p className="text-sm text-black/60">teamnetnirman@gmail.com</p>
                   </div>
                 </div>
 
@@ -213,7 +213,7 @@ export default function ContactPage() {
                   <Clock size={20} weight="fill" className="mt-0.5 shrink-0" />
                   <div>
                     <p className="font-bold text-sm">Business Hours</p>
-                    <p className="text-sm text-black/60">Mon - Sat: 10AM - 7PM</p>
+                    <p className="text-sm text-black/60">Mon - Sat: 9AM - 7PM</p>
                   </div>
                 </div>
               </div>

@@ -32,7 +32,7 @@ const companyLinks = [
 const socialLinks = [
   { icon: TwitterLogo, href: "#", label: "Twitter" },
   { icon: LinkedinLogo, href: "#", label: "LinkedIn" },
-  { icon: InstagramLogo, href: "#", label: "Instagram" },
+  { icon: InstagramLogo, href: "https://www.instagram.com/net_nirman?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==", label: "Instagram" },
   { icon: GithubLogo, href: "#", label: "GitHub" },
   { icon: FacebookLogo, href: "#", label: "Facebook" },
 ];
@@ -99,7 +99,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone size={16} />
-                <span>+91 78188 32387 <br />+91 75003 97790</span>
+                <span>+91 78188 32387</span>
               </div>
               <div className="flex items-center gap-2">
                 <Envelope size={16} />
